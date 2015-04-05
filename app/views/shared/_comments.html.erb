@@ -1,0 +1,36 @@
+<% commented_on ||= false %>
+
+  <div class="row">
+    <div class="span0 well text-center">
+      <% if logged_in? %>
+        <div>
+          <%= link_to vote_post_comment_path(comment.post, comment, vote: true), :method=> :post do %>
+            <i class='icon-arrow-up'></i>
+          <% end %> 
+        </div>
+      <% end %>
+      <div>
+        <p><%= comment.total_votes %> votes</p>
+      </div>
+      <% if logged_in? %>
+        <div>
+          <%= link_to vote_post_comment_path(comment.post, comment, vote: false), :method=> :post do %>
+            <i class='icon-arrow-down'></i>
+          <% end %> 
+        </div>
+      <% end %>
+    </div>
+    <div class="span8 well">
+      <p>
+        <%= comment.body %> 
+        <% if commented_on %>
+          <strong>on <%= link_to comment.post.title, post_path(comment.post) %></strong>
+        <% end %>
+      </p>
+      <span class='quiet'>
+        <small>
+          Commented by <strong><%= link_to comment.creator.username, user_path(comment.creator) %></strong> at <%= display_datetime(comment.created_at) %>
+        </small>
+      </span>
+    </div>
+  </div>

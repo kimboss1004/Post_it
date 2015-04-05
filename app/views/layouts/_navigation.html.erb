@@ -1,8 +1,53 @@
 <ul class="nav">
   <li>
-    <%= link_to "Postit!", root_path, :class => 'brand' %>
+    <%= link_to "Kimboss", root_path, :class => 'brand' %>
   </li>
   <li>
-    <%= link_to 'link', '' %>
+    <%= link_to "Categories", categories_path %>
   </li>
 </ul>
+
+<% if logged_in? %>
+  <div class="nav_item">
+    <%= link_to 'New Post', new_post_path, class: 'btn btn-success' %>
+  </div>
+
+  <div class="nav_item btn-group">
+    <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+      <%= current_user.username %>
+      <span class="caret"></span>
+    </a>
+    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
+      <li>
+        <%= link_to edit_user_path(current_user)  do %>
+          <i class="icon-pencil"></i>
+          Edit Account
+        <% end %>
+      </li>
+      <li>
+        <%= link_to user_path(current_user)  do %>
+          <i class="icon-user"></i>
+          Profile
+        <% end %>
+      </li>
+      <li class="divider"></li>
+      <li>
+        <%= link_to logout_path(current_user)  do %>
+          <i class="icon-off"></i>
+          Logout
+        <% end %>
+      </li>
+    </ul>
+  </div>
+<% end %>
+
+<% if !logged_in? %>
+  <div class="nav_item">
+    <%= link_to 'Register', register_path, class: 'btn btn-success' %>
+  </div>
+  <div class="nav_item">
+    <%= link_to 'Login', login_path, class: "btn" %>
+  </div>
+<% end %>
+
+

@@ -1,0 +1,19 @@
+<% all = link_to("All", posts_path) %>
+<%= render 'shared/content_title', title: "#{all} &raquo; #{@category.name}".html_safe %>
+
+<% @category.posts.each do |post|%>
+  <div class="row">
+    <div class="span8 well">
+      <%= render post.categories %>
+      <h4><%= link_to post.title, post_path(post) %></h4>
+      <p><%= post.description %></p>
+      <p>
+        <small>Posted by <%= post.creator.username %> at <%= post.created_at %></small>
+      </p>
+      <small>
+        <%= link_to "#{post.comments.size} comments", post_path(post) %>
+      </small>
+    </div>
+  </div>
+<% end %>
+
