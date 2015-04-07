@@ -43,15 +43,11 @@ class PostsController < ApplicationController
   end
 
   def vote
-    vote = Vote.create(creator: current_user, vote: params[:vote], voteable: @post)
+    @vote = Vote.create(creator: current_user, vote: params[:vote], voteable: @post)
 
-    if vote.valid?
-      flash[:notice] = "Your vote was counted."
-    else
-      flash[:error] = "You cannot vote more than once"
-    end 
-
-    redirect_to :back
+    respond_to do |format|
+      format.js 
+    end
   end
 
 
@@ -62,12 +58,12 @@ class PostsController < ApplicationController
   end
 
   def set_post
-    @post = Post.find(params[:id])
+    @post = Post.find_by(slug: params[:id])
   end
 
   def creator_of_post
-    if current_user != @post.creator
-      flash[:error] = 'You must be the creator to see that page'
+    unless logged_in? && post_creator?
+      flash[:error] = "Must be the creator to edit post."
       redirect_to root_path
     end
   end

@@ -1,0 +1,4 @@
+<% if !(@vote.valid?) %>
+  alert('You can only vote once');
+<% end %>
+$('#post_<%= @post.slug %>_vote').html('<%= @post.total_votes %> votes');

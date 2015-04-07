@@ -1,24 +1,26 @@
 <% posts.reverse.each do |post| %>
+
   <div class="row">
     <div class="span0 well text-center">
       <% if logged_in? %>
         <div>
-          <%= link_to vote_post_path(post, vote: true), :method=> :post do %>
+          <%= link_to vote_post_path(post, vote: true), method: 'post', remote: true do %>
             <i class='icon-arrow-up'></i>
           <% end %> 
         </div>
       <% end %>
-      <div>
+      <div id='post_<%= post.slug %>_vote'>
         <%= post.total_votes %> votes
       </div>
       <% if logged_in? %>
         <div>
-          <%= link_to vote_post_path(post, vote: false), :method=> :post do %>
+          <%= link_to vote_post_path(post, vote: false), method: 'post', remote: true do %>
             <i class='icon-arrow-down'></i>
           <% end %> 
         </div>
       <% end %>
     </div>
+
     <div class="span8 well">
       <%= render post.categories %>
       <h4><%= link_to post.title, post_path(post) %></h4>
@@ -30,4 +32,5 @@
       <small><%= link_to post.url, fix_url(post.url) %></small>
     </div>
   </div>
+
 <% end %>

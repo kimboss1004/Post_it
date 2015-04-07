@@ -45,10 +45,10 @@ class UsersController < ApplicationController
   end
   
   def set_user
-    @user = User.find(params[:id])
+    @user = User.find_by(slug: params[:id])
   end
 
   def user_params
-    params.require(:user).permit(:username, :password)
+    params.require(:user).permit(:username, :password, :timezone)
   end
 end

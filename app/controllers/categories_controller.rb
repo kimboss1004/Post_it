@@ -1,12 +1,12 @@
 class CategoriesController < ApplicationController
-  before_action :require_user, only: [:new, :create]
+  before_action :require_admin, only: [:new, :create]
   
   def index
     @categories = Category.all
   end
 
   def show
-    @category = Category.find(params[:id])
+    @category = Category.find_by(slug: params[:id])
   end
 
   def new
@@ -29,5 +29,4 @@ class CategoriesController < ApplicationController
   def category_params
     params.require(:category).permit!
   end
-
 end

@@ -2,6 +2,7 @@
 
 <div class="well">
   <p><strong>Username:</strong>  <%= @user.username %></p>
+  <p><strong>Timezone:</strong>  <%= @user.timezone %></p>
 </div>
 
 <h5><%= @user.username %>'s Activity</h5>
@@ -22,7 +23,7 @@
 
 <% if params[:tab]=='comments' %>
   <% @user.comments.each do |comment| %>
-    <%= render 'shared/comments', comment: comment, commented_on: true %>
+    <%= render 'comments/comments', comment: comment, commented_on: true %>
   <% end %>
 <% end %>
 

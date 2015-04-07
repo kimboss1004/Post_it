@@ -2,29 +2,25 @@ class CommentsController < ApplicationController
   before_action :require_user
 
   def create
-    @post = Post.find(params[:post_id])
+    @post = Post.find_by(slug: params[:post_id])
     @comment = @post.comments.new(params.require(:comment).permit!)
     @comment.creator = current_user
 
     if @comment.save
       flash[:notice] = "Your comment has been submitted"
-      redirect_to post_path(@post)
+      redirect_to post_path(@post.slug)
     else
       render 'posts/show'
     end
   end
 
   def vote
-    comment = Comment.find(params[:id])
-    vote = Vote.create(vote: params[:vote], creator: current_user, voteable: comment)
+    @comment = Comment.find(params[:id])
+    @vote = Vote.create(vote: params[:vote], creator: current_user, voteable: @comment)
 
-    if vote.valid?
-      flash[:notice] = "Your vote has been counted."
-    else
-      flash[:error] = "You cannot vote more than once."
+    respond_to do |format|
+      format.js 
     end
-
-    redirect_to :back
   end
 
 end

@@ -1,23 +1,23 @@
 <p>
-  <%= render @post.categories %>
+  <% @post.categories.each do |category| %> 
+    <%= render 'categories/category', category: category %>
+  <% end %>
 </p>
 
-<% if logged_in? && @post.creator.id == current_user.id %>
+<% if logged_in? && post_creator? %>
   <p class="pull-right">
     [<%= link_to 'edit this post', edit_post_path(@post)%>]
   </p>
 <% end %>
-
 <%= render 'shared/content_title', title: @post.title %>
-
 <p>
   <%= @post.description %>
 </p>
-
 <hr/>
 
+
 <% if logged_in? %>
-  <%= render 'shared/form_error', form: @comment %>
+<%= render 'shared/form_error', form: @comment %>
   <%= form_for [@post, @comment] do |f| %>
     <div class="control-group">
       <%= f.label :body, "Leave a comment" %>
@@ -27,13 +27,12 @@
   <% end %>
 <% end %>
  
+
 <br/>
-
 <h5>Comments: </h5>
-
 <hr/>
-<% @post.comments.reverse.each do |comment| %>
-  <%= render 'shared/comments', comment: comment %>
+<% @post.reload.comments.reverse.each do |comment| %>
+  <%= render 'comments/comments', comment: comment %>
 <% end %>
 
 
